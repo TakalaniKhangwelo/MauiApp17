@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp17.View.ShoppingListPage"
+             Title="ShoppingListPage">
+
+    <StackLayout Padding="10">
+        <!-- Loading indicator -->
+        <ActivityIndicator IsRunning="{Binding IsLoading}" 
+                           IsVisible="{Binding IsLoading}"
+                           HorizontalOptions="Center" 
+                           VerticalOptions="CenterAndExpand" />
+
+        <!-- Empty state message -->
+        <Label Text="No items available" 
+               IsVisible="{Binding IsEmpty}"
+               HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand"
+               FontSize="Medium" />
+
+        <!-- Shopping items list -->
+        <ListView ItemsSource="{Binding ShoppingItems}"
+                  IsVisible="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10" ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Grid.Column="0" 
+                                   Source="{Binding ImageUrl}" 
+                                   WidthRequest="60" 
+                                   HeightRequest="60" 
+                                   VerticalOptions="Center"/>
+
+                            <StackLayout Grid.Column="1" VerticalOptions="Center">
+                                <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold"/>
+                                <Label Text="{Binding Price, StringFormat='${0:F2}'}" FontSize="Small"/>
+                                <Label Text="{Binding Quantity, StringFormat='In stock: {0}'}" FontSize="Small"/>
+                            </StackLayout>
+
+                            <Button Grid.Column="2" 
+                                    Text="Add to Cart" 
+                                    Command="{Binding Source={x:Reference ShoppingListPageRoot}, Path=BindingContext.AddToCartCommand}" 
+                                    CommandParameter="{Binding .}"
+                                    VerticalOptions="Center"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>
+
+
+

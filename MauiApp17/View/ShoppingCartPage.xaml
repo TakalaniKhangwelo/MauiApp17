@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp17.View.ShoppingCartPage"
+             Title="ShoppingCartPage">
+    
+
+        <StackLayout Padding="10">
+            <ListView ItemsSource="{Binding ShoppingCartItems}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <Image Source="{Binding ShoppingItem.ImageUrl}" WidthRequest="50" HeightRequest="50" VerticalOptions="Center"/>
+                                <StackLayout Orientation="Vertical" VerticalOptions="Center">
+                                    <Label Text="{Binding ShoppingItem.Name}" FontSize="Medium"/>
+                                    <Label Text="{Binding Quantity, StringFormat='Quantity: {0}'}" FontSize="Medium"/>
+                                </StackLayout>
+                                <Button Text="Remove" Command="{Binding BindingContext.RemoveFromCartCommand, Source={x:Reference this}}" CommandParameter="{Binding .}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage>
